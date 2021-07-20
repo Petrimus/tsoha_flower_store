@@ -4,17 +4,12 @@ from flower_store import db
 
 @main_blueprint.route('/')
 def index():  
-    print(db) 
-    try:
-        print(db)
-        db.session.execute("SELECT")
-        print('connected to database')
-    except Exception:  
-        print('database not connected')
- 
-    result = db.session.execute("SELECT COUNT(*) FROM messages")
-    count = result.fetchone()[0]
+   
+    # return render_template('main/index.html')
+    return render_template('main/home.html')
+
+@main_blueprint.route("/messages")
+def messages():
     result = db.session.execute("SELECT content FROM messages")
     messages = result.fetchall()
-    # return render_template('main/index.html')
-    return render_template('main/index.html' , count=count, messages=messages)
+    return render_template("main/messages.html", count=len(messages), messages=messages)

@@ -1,11 +1,11 @@
 from . import db
 
-class User(db.Model):
+class Floweruser(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  username = db.Column(db.String(20), unique, nullable=False)
-  useremail = db.Column(db.String(120), unique, nullable=False)
+  username = db.Column(db.String(20), unique=True, nullable=False)
+  useremail = db.Column(db.String(120), unique=True, nullable=False)
   password = db.Column(db.String(60), nullable=False)
 
   def __repr__(self):
-    return f("User('{self.username}')"
+    return f"User('{self.username}', '{self.useremail}')"
 

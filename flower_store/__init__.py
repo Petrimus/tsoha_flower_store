@@ -23,9 +23,11 @@ def create_app():
 def register_blueprints(app):
     from flower_store.auth import auth_blueprint
     from flower_store.main import main_blueprint
+    from flower_store.admin import admin_blueprint
 
-    app.register_blueprint(auth_blueprint, url_prefix='/users')
+    app.register_blueprint(auth_blueprint)
     app.register_blueprint(main_blueprint)
+    app.register_blueprint(admin_blueprint)
 
 
 def initialize_extensions(app):
