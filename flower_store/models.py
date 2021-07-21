@@ -9,3 +9,21 @@ class Floweruser(db.Model):
   def __repr__(self):
     return f"User('{self.username}', '{self.useremail}')"
 
+class Flowers(db.Model):
+
+
+class Order_details(db.Model):
+
+class Order_items(db.Model):
+
+
+class Inventory(db.Model):
+
+
+
+class Cart(db.Model):
+
+class Session(db.model):
+  
+
+# class Creditcard(db.model):
