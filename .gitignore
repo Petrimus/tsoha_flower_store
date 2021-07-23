@@ -25,6 +25,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+run/
+database.env
 
 # vs code stuff
 .vscode/
@@ -33,4 +35,7 @@ venv.bak/
 komentoja.*
 file_explanations.txt
 commands_used.txt
+venvi.sh
+
+
 
