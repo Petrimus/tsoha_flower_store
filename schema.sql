@@ -39,26 +39,27 @@ CREATE TABLE inventory (
   id SERIAL PRIMARY KEY,
   quantity Integer NOT NULL,
   last_replenished DATE,
-  next_replenish DATE
+  next_replenish DATE,
+  flower_id INTEGER REFERENCES flower(flower_id)
 );
 
 CREATE TABLE shoppingcart (
-  id SERIAL PRIMARY KEY,
-  status Integer references shoppingcart_status(id)
+  id SERIAL PRIMARY KEY,  
   name VARCHAR (30) NOT NULL,
   user_id INTeger(10) DEFAULT NULL,
   total NUMERIC (10) NOT NULL DEFAULT '0.00',
   status INT references shoppingcart_status(id)
   created_at TIMESTAMP NOT NULL,
-  modified_at` TIMESTAMP
+  modified_at TIMESTAMP,
+  status Integer references shoppingcart_status(id)
 );
 
 CREATE TABLE shoppingcart_item (
   id SERIAL PRIMARY KEY,
   quantity INTEGER DEFAULT 0 NOT NULL,
   created_at TIMESTAMP NOT NULL,
-  modified_at` TIMESTAMP
-
+  modified_at TIMESTAMP,
+  flower_id INTEGER REFERENCES flower(flower_id)
 );
 
 CREATE TABLE shoppingcart_status (
@@ -66,5 +67,6 @@ CREATE TABLE shoppingcart_status (
    info TEXT,
    status VARCHAR (10) NOT NULL,
    created_at DATE,
-   modified_at Date
+   modified_at Date,
+
 )
