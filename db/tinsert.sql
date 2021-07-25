@@ -1,1 +1,2 @@
 INSERT INTO messages (content) VALUES ('apina banaani cembalo');
+INSERT INTO flower_user (first_name, last_name, username, user_email, password, is_admin) VALUES ('Petri', 'Palmu', 'palmupe', 'petri@mikalie.io', 'petri', True);
