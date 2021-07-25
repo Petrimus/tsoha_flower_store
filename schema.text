@@ -69,8 +69,3 @@ CREATE TABLE shoppingcart_status (
    created_at DATE,
    modified_at Date
 );
-
-CREATE TABLE messages (
-  id SERIAL PRIMARY KEY,
-  content TEXT
-);
