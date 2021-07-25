@@ -7,7 +7,7 @@ The application is an online store where you can buy flowers. New customers have
 This application will not be a complete online store. It will enable and concentrate on the functionality described above, but in comparison to fully working online stores it omits some functionality. Inventory is used to check if there are enough products for order, but inventory is not changed after order, so it is somewhat static. Application does not include any payment methods and finally there will be no handling for placed orders aside that admin can update them as finished.
  
 ## Database
-Database for development is a Postgres database running in a Docker container and orchestrated with docker-compose. You can start a prefilled database by command '''docker-compose up''' in the project root. You have to have docker-compose installed in your machine.
+Database for development is a Postgres database running in a Docker container and orchestrated with docker-compose. You can start a prefilled database by command ```docker-compose up``` in the project root. You have to have docker-compose installed in your machine.
  
 Database has eight tables:
 - flower_user lists all the users including admin user/users.
