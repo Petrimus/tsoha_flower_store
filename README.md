@@ -35,3 +35,4 @@ Database has eight tables:
 - admin can delete orders.
 - admin can change the status of the orders (in_progress, finishes, cancelled) 
 
+Goal is to have all the basic features of online store from customer perspective exluding payments.
