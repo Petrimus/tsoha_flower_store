@@ -27,5 +27,49 @@ CREATE TABLE creditcard (
   flower_user_id INTEGER REFERENCES flower_user
   );
 
+CREATE TABLE flower (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  latin_name TEXT NOT NULL,
+  description TEXT NOT NULL,
+  price NUMERIC NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE inventory (
+  id SERIAL PRIMARY KEY,
+  quantity Integer NOT NULL,
+  last_restock DATE,
+  next_restock DATE,
+  flower_id INTEGER REFERENCES flower
+);
+
+CREATE TABLE shoppingcart_status (
+   id SERIAL PRIMARY KEY,
+   info TEXT,
+   status VARCHAR (10) NOT NULL   
+);
+
+CREATE TABLE shoppingcart (
+  id SERIAL PRIMARY KEY,  
+  name VARCHAR (30) NOT NULL,  
+  total NUMERIC (10) NOT NULL DEFAULT '0.00',  
+  created_at TIMESTAMP NOT NULL,
+  modified_at TIMESTAMP,
+  status_id INTEGER REFERENCES shoppingcart_status,
+  flower_user_id INTEGER REFERENCES flower_user  
+);
+
+CREATE TABLE shoppingcart_item (
+  id SERIAL PRIMARY KEY,
+  quantity INTEGER DEFAULT 0 NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  modified_at TIMESTAMP,
+  flower_id INTEGER REFERENCES flower,
+  shoppingcart_id INTEGER REFERENCES shoppingcart
+);
+
+
+
 
 CREATE TABLE messages (id SERIAL PRIMARY KEY, content TEXT);

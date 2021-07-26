@@ -1,7 +1,0 @@
-# CREATE USER admin WITH PASSWORD 'adminpass';
-# CREATE DATABASE flowerdb;
-# GRANT ALL PRIVILEGES ON DATABASE flowerdb to admin;
-
-
-CREATE TABLE messages (id SERIAL PRIMARY KEY, content TEXT);
-INSERT INTO messages (content) VALUES ('apina banaani cembalo');
