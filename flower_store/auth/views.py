@@ -11,3 +11,12 @@ def signup():
    
     return render_template('auth/signup.html')
 
+@auth_blueprint.route('/auth/signup_result', methods=["POST"])
+def result():
+    firstname = request.form["signup_firstname"]
+    lastname = request.form["signup_lastname"]
+    adress = request.form["signup_adress"]
+    city = request.form["signup_city"]
+    postalcode = request.form["signup_postalcode"]
+    email = request.form["signup_email"]
+    

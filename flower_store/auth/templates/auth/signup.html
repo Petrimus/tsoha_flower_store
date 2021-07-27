@@ -23,19 +23,21 @@
           <form>
             <div class="row justify-content-center mb-4">
               <div class="col">
-                <label for="first_name" class="form-label">first name</label>
+                <label for="first_name" class="form-label">First name</label>
                 <input
                   type="text"
                   class="form-control"
                   id="first_name"
+                  name="signup_firstname"
                   aria-describedby="emailHelp"
                 />
               </div>
               <div class="col">
-                <label for="surname" class="form-label">last name</label>
+                <label for="surname" class="form-label">Last name</label>
                 <input
                   type="text"
                   class="form-control"
+                  name="signup_lastname"
                   id="surname"
                   aria-describedby="emailHelp"
                 />
@@ -47,7 +49,8 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="address"                
+                  name="signup_adress"
+                  id="address"
                 />
               </div>
               <div class="col-3">
@@ -55,7 +58,8 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="city"                 
+                  name="signup_city"
+                  id="city"
                 />
               </div>
               <div class="col-3">
@@ -63,7 +67,8 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="post_code"                  
+                  name="signup_postalcode"
+                  id="post_code"
                 />
               </div>
             </div>
@@ -73,6 +78,7 @@
                 type="email"
                 class="form-control"
                 id="email"
+                name="signup_email"
                 aria-describedby="emailHelp"
               />
               <div id="emailHelp" class="form-text">validation email</div>
@@ -82,7 +88,8 @@
               <input
                 type="password"
                 class="form-control"
-                id="email"
+                id="signup_password"
+                name="signup_password"
                 aria-describedby="passwordHelp"
               />
               <div id="passwordHelp" class="form-text">password validation</div>
@@ -92,12 +99,15 @@
                 type="checkbox"
                 class="form-check-input"
                 id="term_and_conditions"
+                onclick="enable(this)"
               />
               <label class="form-check-label" for="term_and_conditions"
                 >Agree to terms and conditions</label
               >
             </div>
-            <button type="submit" class="btn btn-success w-100 mb-4">signup</button>
+            <button type="submit" id="submit_btn" class="btn btn-success w-100 mb-4" disabled>
+              sign up
+            </button>
           </form>
           <div class="mb-8">
             <p class="mb-0 text-center">
@@ -119,5 +129,12 @@
       integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
       crossorigin="anonymous"
     ></script>
+    <script>
+      function enable(checkbox) {       
+        checkbox.checked
+          ? (document.getElementById('submit_btn').disabled = false)
+          : (document.getElementById('submit_btn').disabled = true);
+      }
+    </script>
   </body>
 </html>
