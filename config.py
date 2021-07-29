@@ -21,7 +21,7 @@ class Config(object):
 
 class DevelopmentConfig(Config):    
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@localhost:5438"
+    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:flower@localhost:5438"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class TestingConfig(Config):
