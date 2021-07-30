@@ -1,14 +1,40 @@
 from . import auth_blueprint
-from flask import render_template, request, redirect, url_for, current_app
+from flask import render_template, request, redirect, url_for, current_app, session
 from flower_store import db
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
 @auth_blueprint.route('/login')
+def login_form():
+
+    return render_template('auth/login.html', error_message="")
+
+
+@auth_blueprint.route("/login",methods=["POST"])
 def login():
+    username = request.form["username"]
+    password = request.form["password"]
 
-    return render_template('auth/login.html')
+    if (not username or not password):
+        return render_template('auth/login.html', error_message="You must give username (email) and password")
 
+    sql = "SELECT id, password FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone()    
+    if not user:
+        return render_template('auth/login.html', error_message="Username or password incorrect")
+    else:
+        hash_value = user.password
+    if check_password_hash(hash_value, password):
+        session["username"] = username
+        return redirect("/")
+    else:
+        return render_template('auth/login.html', error_message="Username or password incorrect")
+
+@auth_blueprint.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
 
 @auth_blueprint.route('/signup')
 def signup_form():
