@@ -31,6 +31,8 @@ CREATE TABLE flower (
   latin_name TEXT NOT NULL,
   description TEXT NOT NULL,
   price NUMERIC NOT NULL,
+  picture TEXT NOT NULL,
+  picture_alt TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL
 );
 

@@ -13,3 +13,10 @@ def messages():
     result = db.session.execute("SELECT content FROM messages")
     messages = result.fetchall()
     return render_template("main/messages.html", count=len(messages), messages=messages)
+
+@main_blueprint.route("/flowers")
+def all_flowers():
+    result = db.session.execute("SELECT * FROM flower;")
+    flowers = result.fetchall()
+
+    return render_template('main/flowers.html', flowers=flowers)
