@@ -1,0 +1,113 @@
+{% extends "/main/layouts/base_layout.html" %} {% block content %}
+<div class="container">
+  <div class="card mt-4">
+    <div class="row no-gutters">
+      <div class="col-auto">
+        <div class="img-big-wrap">
+          <img src="/static/images/samettikukka.jpg" width="500" height="600" />
+        </div>
+      </div>
+      <div class="col">
+        <div class="card-block px-2">
+          <article class="card-body p-5">
+            <h3 class="title mb-3">{{flower.name}}</h3>
+            <p class="price-detail-wrap">
+              <span class="price h3 text-warning">
+                <span class="currency">EUR $</span>
+                <span class="num">{{flower.price}}</span>
+              </span>
+              <span>/per kpl</span>
+            </p>
+            <dl class="item-property">
+              <dt>Description</dt>
+              <dd>
+                <p>{{flower.description}}</p>
+              </dd>
+            </dl>
+            <dl class="param param-feature">
+              <dt>Latin name</dt>
+              <dd>{{flower.latin_name}}</dd>
+            </dl>
+            <dl class="param param-feature">
+              <dt>Color</dt>
+              <dd>Black and white</dd>
+            </dl>
+            <dl class="param param-feature">
+              <dt>Available in stock</dt>
+              <dd>{{flower.quantity}}</dd>
+            </dl>
+            <hr />
+            <!-- <div class="row"> -->
+            <div class="col-sm-3">
+              <dl class="param param-inline">
+                <dt>Quantity:</dt>
+                <dd>
+                  <!-- <div style="margin: 20px auto"> -->
+                  <div class="input-group mt-2">
+                    <span class="input-group-btn">
+                      <button
+                        type="button"
+                        class="btn btn-danger btn-number"
+                        id="minus"
+                        onclick="decreaseValue()"
+                      >
+                        <i class="bi bi-dash-lg"></i>
+                      </button>
+                    </span>
+                    <input
+                      type="number"
+                      class="form-control input-number"
+                      id="number"
+                      value="10"
+                      min="1"
+                      max="15"                     
+                    />
+                    <span class="input-group-btn">
+                      <button
+                        type="button"
+                        class="btn btn-success btn-number"
+                        id="plus"
+                        onclick="increaseValue()"                       
+                      >
+                        <i class="bi bi-plus-lg"></i>
+                      </button>
+                    </span>
+                  </div>
+                </dd>
+              </dl>
+            </div>
+            <hr />
+            <a href="#" class="btn btn-lg btn-outline-primary text-uppercase">
+              <i class="fas fa-shopping-cart"></i> Add to cart
+            </a>
+          </article>
+        </div>
+      </div>
+    </div>
+    <div style="margin: -10px 0px 20px 20px;" >
+    <a href="/flowers">Back to the main flower list</a>
+  </div>
+  </div>
+  <script>
+    function increaseValue() {
+      document.getElementById('minus').disabled = false;
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value; 
+      console.log(typeof value);  
+      value++;  
+      if (value == 15) document.getElementById('plus').disabled = true;       
+      document.getElementById('number').value = value;
+    }
+
+    function decreaseValue() {
+      document.getElementById('plus').disabled = false;
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value < 1 ? (value = 1) : '';
+      value--;
+      if (value == 1) document.getElementById('minus').disabled = true;
+      document.getElementById('number').value = value;
+    }
+  </script>
+  {% endblock %}
+</div>

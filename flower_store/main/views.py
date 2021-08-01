@@ -20,3 +20,13 @@ def all_flowers():
     flowers = result.fetchall()
 
     return render_template('main/flowers.html', flowers=flowers)
+
+@main_blueprint.route("/flower/<int:id>")
+def single_flower(id):
+    sql = "SELECT flower.*, inventory.* FROM flower INNER JOIN inventory ON flower.id=:id AND inventory.flower_id=flower.id;"
+    
+    result = db.session.execute(sql, {"id":id})
+    flower = result.fetchone()
+    print(flower)
+
+    return render_template('main/single_flower.html', flower=flower)
