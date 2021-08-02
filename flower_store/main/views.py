@@ -30,3 +30,8 @@ def single_flower(id):
     print(flower)
 
     return render_template('main/single_flower.html', flower=flower)
+
+@main_blueprint.route('/shoppingcart')
+def shoppingcart():
+
+    return render_template('main/shoppingcart.html')
