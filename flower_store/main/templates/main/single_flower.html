@@ -43,59 +43,61 @@
                 <dt>Quantity:</dt>
                 <dd>
                   <!-- <div style="margin: 20px auto"> -->
-                  <div class="input-group mt-2">
-                    <span class="input-group-btn">
-                      <button
-                        type="button"
-                        class="btn btn-danger btn-number"
-                        id="minus"
-                        onclick="decreaseValue()"
-                      >
-                        <i class="bi bi-dash-lg"></i>
-                      </button>
-                    </span>
-                    <input
-                      type="number"
-                      class="form-control input-number"
-                      id="number"
-                      value="10"
-                      min="1"
-                      max="15"                     
-                    />
-                    <span class="input-group-btn">
-                      <button
-                        type="button"
-                        class="btn btn-success btn-number"
-                        id="plus"
-                        onclick="increaseValue()"                       
-                      >
-                        <i class="bi bi-plus-lg"></i>
-                      </button>
-                    </span>
-                  </div>
+                  <form>
+                    <div class="input-group mt-2">
+                      <span class="input-group-btn">
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-number"
+                          id="minus"
+                          onclick="decreaseValue()"
+                        >
+                          <i class="bi bi-dash-lg"></i>
+                        </button>
+                      </span>
+                      <input
+                        type="number"
+                        class="form-control input-number"
+                        id="number"
+                        value="10"
+                        min="1"
+                        max="15"
+                        name="amount"
+                      />
+                      <input type="hidden" name="id" value="{{ id }}">
+                      <span class="input-group-btn">
+                        <button
+                          type="button"
+                          class="btn btn-success btn-number"
+                          id="plus"
+                          onclick="increaseValue()"
+                        >
+                          <i class="bi bi-plus-lg"></i>
+                        </button>
+                      </span>
+                      <button type="submit">Add to cart</button>
+                    </div>
+                  </form>
                 </dd>
               </dl>
             </div>
             <hr />
-            <a href="#" class="btn btn-lg btn-outline-primary text-uppercase">
-              <i class="fas fa-shopping-cart"></i> Add to cart
-            </a>
           </article>
         </div>
       </div>
     </div>
-    <div style="margin: -10px 0px 20px 20px;" >
-    <a href="/flowers">Back to the main flower list</a>
-  </div>
+    <div style="margin: -10px 0px 20px 20px">
+      <a href="/flowers">Back to the main flower list</a>
+    </div>
   </div>
   <script>
     function increaseValue() {
       document.getElementById('minus').disabled = false;
       var value = parseInt(document.getElementById('number').value, 10);
-      value = isNaN(value) ? 0 : value; 
-      console.log(typeof value);  
-      value++;  
-      if (value == 15) document.getElementById('plus').disabled = true;       
+      value = isNaN(value) ? 0 : value;
+      console.log(typeof value);
+      value++;
+      if (value == 15) document.getElementById('plus').disabled = true;
       document.getElementById('number').value = value;
     }
 

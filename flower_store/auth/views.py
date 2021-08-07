@@ -10,7 +10,7 @@ def login_form():
     return render_template('auth/login.html', error_message="")
 
 
-@auth_blueprint.route("/login",methods=["POST"])
+@auth_blueprint.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
@@ -18,23 +18,33 @@ def login():
     if (not username or not password):
         return render_template('auth/login.html', error_message="You must give username (email) and password")
 
-    sql = "SELECT id, password FROM users WHERE username=:username"
-    result = db.session.execute(sql, {"username":username})
-    user = result.fetchone()    
+    sql = "SELECT id, password FROM flower_user WHERE username=:username"
+    result = db.session.execute(sql, {"username": username})
+    user = result.fetchone()
     if not user:
         return render_template('auth/login.html', error_message="Username or password incorrect")
     else:
         hash_value = user.password
-    if check_password_hash(hash_value, password):
+
+    # if check_password_hash(hash_value, password):
+    if (user.password == password):
         session["username"] = username
+        session["user_id"] = user.id
+        ses_id = create_shoppingcart(user.id)
+        print(ses_id)
+        session["shoppingcart_id"] = ses_id
         return redirect("/")
     else:
         return render_template('auth/login.html', error_message="Username or password incorrect")
 
+
 @auth_blueprint.route("/logout")
 def logout():
     del session["username"]
+    del session["user_id"]
+    del session["shoppingcart_id"]
     return redirect("/")
+
 
 @auth_blueprint.route('/signup')
 def signup_form():
@@ -64,12 +74,32 @@ def signup_result():
     if (len(users) > 0):
         return "email already exists", 400
 
-    hash_value = generate_password_hash(password)
-    user_sql = "INSERT INTO flower_user (first_name, last_name, user_email, password) VALUES (:firstname, :lastname, :email, :password) RETURNING id;"   
-    saved_user = db.session.execute(user_sql, {"firstname": firstname, "lastname": lastname, "email": email, "password": hash_value} )
+    hash_value =  password # generate_password_hash(password)
+    user_sql = "INSERT INTO flower_user (first_name, last_name, user_email, password) VALUES (:firstname, :lastname, :email, :password) RETURNING id;"
+    saved_user = db.session.execute(user_sql, {
+                                    "firstname": firstname, "lastname": lastname, "email": email, "password": hash_value})
     last_inserted_id = saved_user.fetchone()[0]
     adress_sql = "INSERT INTO adress (street_and_nro, postal_code, city, flower_user_id) VALUES (:adress, :postalcode, :city, :flower_user_id);"
-    db.session.execute(adress_sql, {"adress":adress, "postalcode": postalcode, "city": city, "flower_user_id": last_inserted_id})
+    db.session.execute(adress_sql, {
+                       "adress": adress, "postalcode": postalcode, "city": city, "flower_user_id": last_inserted_id})
     db.session.commit()
 
     return redirect('/')
+
+
+def create_shoppingcart(user_id):    
+    get_shoppingcart_sql = "SELECT * FROM shoppingcart WHERE flower_user_id=:id"
+    cart = db.session.execute(get_shoppingcart_sql, {"id": user_id}).fetchone()
+
+    insert_sql = "INSERT INTO shoppingcart (status_id, flower_user_id)",
+    "select status_id, shoppingcart_status.id"
+    "from ( values('open', {id})) as data(status_text, flower_user_id)",
+    "join shoppingcart_status on shoppingcart_status.status_text = data.status_text RETURNING id;"
+
+    if (not cart):
+        sc_id = db.session.execute(insert_sql)
+        db.session.commit()
+        sc_sql =  "SELECT id FROM shoppingcart WHERE flower_user_id=:id"
+        cart = db.session.execute(sc_sql, {"id": sc_id}).fetcone()
+    
+    return cart.id

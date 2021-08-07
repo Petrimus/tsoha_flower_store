@@ -1,5 +1,6 @@
 import os
-from flask import Flask
+from flask import Flask, render_template, redirect, session, flash, url_for
+from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from os import getenv
 
@@ -36,3 +37,14 @@ def register_error_handlers(app):
 
 def configure_logging(app):
     pass
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'username' in session:
+            return f(*args, **kwargs)
+        else:
+            flash("You need to login first")
+            return redirect(url_for('auth.login'))
+
+    return wrap

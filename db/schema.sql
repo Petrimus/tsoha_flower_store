@@ -2,7 +2,7 @@ CREATE TABLE flower_user (
   id SERIAL PRIMARY KEY,  
   first_name VARCHAR (20) NOT NULL,
   last_name VARCHAR (30) NOT NULL,  
-  user_email VARCHAR (100) NOT NULL unique,
+  username VARCHAR (100) NOT NULL unique,
   password VARCHAR NOT NULL,
   is_admin BOOlean DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
@@ -46,15 +46,13 @@ CREATE TABLE inventory (
 
 CREATE TABLE shoppingcart_status (
    id SERIAL PRIMARY KEY,
-   info TEXT,
-   status VARCHAR (10) NOT NULL   
+   status_text TEXT NOT NULL    
 );
 
 CREATE TABLE shoppingcart (
-  id SERIAL PRIMARY KEY,  
-  name VARCHAR (30) NOT NULL,  
+  id SERIAL PRIMARY KEY, 
   total NUMERIC (10) NOT NULL DEFAULT '0.00',  
-  created_at TIMESTAMP NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   modified_at TIMESTAMP,
   status_id INTEGER REFERENCES shoppingcart_status,
   flower_user_id INTEGER REFERENCES flower_user  
@@ -68,8 +66,5 @@ CREATE TABLE shoppingcart_item (
   flower_id INTEGER REFERENCES flower,
   shoppingcart_id INTEGER REFERENCES shoppingcart
 );
-
-
-
 
 CREATE TABLE messages (id SERIAL PRIMARY KEY, content TEXT);
