@@ -4,6 +4,13 @@ from flower_store import db
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
+@auth_blueprint.route("/create_password/<string:passw>")
+def new_password(passw):
+    hash_value = generate_password_hash(passw)
+
+    return hash_value
+
+
 @auth_blueprint.route('/login')
 def login_form():
 
@@ -26,12 +33,11 @@ def login():
     else:
         hash_value = user.password
 
-    # if check_password_hash(hash_value, password):
-    if (user.password == password):
+    if check_password_hash(hash_value, password):
+        # if (user.password == password):
         session["username"] = username
         session["user_id"] = user.id
         ses_id = create_shoppingcart(user.id)
-        print(ses_id)
         session["shoppingcart_id"] = ses_id
         return redirect("/")
     else:
@@ -68,14 +74,14 @@ def signup_result():
     if (len(password) < 8 or len(password) > 24):
         return "Password is invalid", 400
 
-    sql = "SELECT * FROM flower_user where user_email=:email"
+    sql = "SELECT * FROM flower_user where username=:email"
     result = db.session.execute(sql, {"email": email})
     users = result.fetchall()
     if (len(users) > 0):
         return "email already exists", 400
 
-    hash_value =  password # generate_password_hash(password)
-    user_sql = "INSERT INTO flower_user (first_name, last_name, user_email, password) VALUES (:firstname, :lastname, :email, :password) RETURNING id;"
+    hash_value = generate_password_hash(password)
+    user_sql = "INSERT INTO flower_user (first_name, last_name, username, password) VALUES (:firstname, :lastname, :email, :password) RETURNING id;"
     saved_user = db.session.execute(user_sql, {
                                     "firstname": firstname, "lastname": lastname, "email": email, "password": hash_value})
     last_inserted_id = saved_user.fetchone()[0]
@@ -87,19 +93,17 @@ def signup_result():
     return redirect('/')
 
 
-def create_shoppingcart(user_id):    
+def create_shoppingcart(user_id):
     get_shoppingcart_sql = "SELECT * FROM shoppingcart WHERE flower_user_id=:id"
     cart = db.session.execute(get_shoppingcart_sql, {"id": user_id}).fetchone()
 
-    insert_sql = "INSERT INTO shoppingcart (status_id, flower_user_id)",
-    "select status_id, shoppingcart_status.id"
-    "from ( values('open', {id})) as data(status_text, flower_user_id)",
-    "join shoppingcart_status on shoppingcart_status.status_text = data.status_text RETURNING id;"
+    insert_sql = "INSERT INTO shoppingcart (status_id, flower_user_id)  values (1, {}) RETURNING id;".format(user_id)
 
     if (not cart):
-        sc_id = db.session.execute(insert_sql)
-        db.session.commit()
-        sc_sql =  "SELECT id FROM shoppingcart WHERE flower_user_id=:id"
-        cart = db.session.execute(sc_sql, {"id": sc_id}).fetcone()
-    
+        result = db.session.execute(insert_sql)
+        [new_id] = result.fetchone()
+        print(new_id)
+        sc_sql = "SELECT id FROM shoppingcart WHERE flower_user_id=:id"
+        cart = db.session.execute(sc_sql, {"id": new_id}).fetchone()
+
     return cart.id

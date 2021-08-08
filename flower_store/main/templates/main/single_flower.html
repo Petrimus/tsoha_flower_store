@@ -43,40 +43,13 @@
                 <dt>Quantity:</dt>
                 <dd>
                   <!-- <div style="margin: 20px auto"> -->
-                  <form action="/add_to_cart" method="POST">
-                    <div class="input-group mt-2">
-                      <span class="input-group-btn">
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-number"
-                          id="minus"
-                          onclick="decreaseValue()"
-                        >
-                          <i class="bi bi-dash-lg"></i>
-                        </button>
-                      </span>
-                      <input
-                        type="number"
-                        class="form-control input-number"
-                        id="number"
-                        value="10"
-                        min="1"
-                        max="15"
-                        name="amount"
-                      />
-                      <input type="hidden" name="id" value="{{ id }}">
-                      <span class="input-group-btn">
-                        <button
-                          type="button"
-                          class="btn btn-success btn-number"
-                          id="plus"
-                          onclick="increaseValue()"
-                        >
-                          <i class="bi bi-plus-lg"></i>
-                        </button>
-                      </span>                      
-                    </div>
-                    <button type="submit" class="btn btn-outline-success btn-lg">Add to cart</button>
+                  <form >
+                    <button
+                      type="submit"
+                      class="btn btn-outline-success btn-lg"
+                    >
+                      Add to cart
+                    </button>
                   </form>
                 </dd>
               </dl>

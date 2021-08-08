@@ -9,7 +9,7 @@
       </div>
       <div class="row border-top border-bottom">
         {% for flower in cart %}
-        <div class="row main align-items-center">          
+        <div class="row main align-items-center">
           <div class="col-2 mt-2">
             <img class="img-fluid" src="{{flower.picture}}" />
           </div>
@@ -22,7 +22,7 @@
               <span class="input-group-btn">
                 <button
                   type="button"
-                  class="btn btn-danger btn-number"
+                  class="btn btn-danger btn-number minus"
                   id="minus"
                   onclick="decreaseValue()"
                 >
@@ -67,12 +67,12 @@
       </div>
       <hr />
       <div class="row mt-4">
-        <div class="col">flowers items </div>
-        <div class="col text-right"> {{aggregate.quantity}}</div>
+        <div class="col">flowers items</div>
+        <div class="col text-right">{{aggregate.quantity}}</div>
       </div>
       <div class="row mt-4">
-        <div class="col">flowers total </div>
-        <div class="col text-right"> {{aggregate.quantity_total}}</div>
+        <div class="col">flowers total</div>
+        <div class="col text-right">{{aggregate.quantity_total}}</div>
       </div>
       <div class="row mt-4">
         <div class="col">Status</div>
@@ -84,11 +84,15 @@
         <div class="col text-right">&euro; {{aggregate.total}}</div>
       </div>
       <div class="row mt-4 mx-2">
-        <button type="button" class="btn btn-success">Place order</button>
+        <form action="shoppingcart/order" method="POST">
+          <input type="hidden" name="order_id" value="{{cart_id}}" />
+          <button type="submit" class="btn btn-success">Place order</button>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
 <script>
   function increaseValue() {
     document.getElementById('minus').disabled = false;
@@ -101,6 +105,7 @@
   }
 
   function decreaseValue() {
+    console.log('button clicked');
     document.getElementById('plus').disabled = false;
     var value = parseInt(document.getElementById('number').value, 10);
     value = isNaN(value) ? 0 : value;

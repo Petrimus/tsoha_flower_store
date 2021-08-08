@@ -50,8 +50,7 @@ CREATE TABLE shoppingcart_status (
 );
 
 CREATE TABLE shoppingcart (
-  id SERIAL PRIMARY KEY, 
-  total NUMERIC (10) NOT NULL DEFAULT '0.00',  
+  id SERIAL PRIMARY KEY,   
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   modified_at TIMESTAMP,
   status_id INTEGER REFERENCES shoppingcart_status,

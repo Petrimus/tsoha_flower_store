@@ -44,24 +44,29 @@ def single_flower(id):
     return render_template('main/single_flower.html', flower=flower, id=id)
 
 
-@main_blueprint.route('/shoppingcart')
+@main_blueprint.route("/shoppingcart")
 @login_required
 def shoppingcart():
     user_id = session["user_id"]
-    cart_sql = ("SELECT shoppingcart.id, shoppingcart_item.quantity, flower.*, shoppingcart_item.quantity*flower.price as TOTAL_PRICE FROM shoppingcart, shoppingcart_item, flower WHERE shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id=1"
+    cart_sql = ("SELECT shoppingcart.id as cart_id, shoppingcart_item.quantity, flower.*, shoppingcart_item.quantity*flower.price as TOTAL_PRICE FROM shoppingcart, shoppingcart_item, flower WHERE shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id=1"
     "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;")
 
     aggregate_sql = ("SELECT SUM(shoppingcart_item.quantity*flower.price) as TOTAL, COUNT(flower.id) as QUANTITY, SUM(shoppingcart_item.quantity) as QUANTITY_total "
     "FROM shoppingcart, shoppingcart_item, flower "
-    "WHERE shoppingcart.flower_user_id=1 AND shoppingcart.status_id=1 "
-    "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;")
+    "WHERE shoppingcart.flower_user_id={} AND shoppingcart.status_id=1 "
+    "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;".format(user_id))
 
     shoppingcart_result = db.session.execute(cart_sql, {"user_id": user_id}).fetchall()
     aggregate_result = db.session.execute(aggregate_sql).fetchone()
-    return render_template('main/shoppingcart.html', cart=shoppingcart_result, aggregate=aggregate_result)
+    shoppingcart_id = db.session.execute("SELECT id FROM shoppingcart WHERE flower_user_id={} AND status_id=1".format(user_id)).fetchone()
+    return render_template('main/shoppingcart.html', cart=shoppingcart_result, aggregate=aggregate_result, cart_id=shoppingcart_id)
 
 
-@main_blueprint.route('/add_to_cart', methods=["POST"])
-def add_to_cart():
 
-    return "kissa"
+@main_blueprint.route("/shoppingcart/order", methods=["POST"])
+@login_required
+def place_order():
+    firstname = request.form["order_id"]
+    print(firstname)
+
+    return redirect('/shoppingcart')
