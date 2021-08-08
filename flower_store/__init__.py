@@ -9,7 +9,7 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
 
-    CONFIG_TYPE = os.getenv('CONFIG_TYPE', default='config.DevelopmentConfig')    
+    CONFIG_TYPE = os.getenv('CONFIG_TYPE', default='config.ProductionConfig')    
     app.config.from_object(CONFIG_TYPE)    
     app.secret_key = getenv("SECRET_KEY")
     db.init_app(app)
