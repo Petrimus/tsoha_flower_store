@@ -8,4 +8,6 @@ INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (
 INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (8, '2021-06-22 19:10:25-07', '2021-06-29 19:10:25-07', 3);
 INSERT INTO shoppingcart_status (status_text) VALUES ('open'), ('ordered'), ('completed'), ('deleted'); 
 INSERT INTO shoppingcart (created_at, status_id, flower_user_id) VALUES ('2021-06-22 19:10:25-07', 1, 1);
-INSERT INTO shoppingcart_item (flower_id, shoppingcart_id) VALUES (1, 1);
+INSERT INTO shoppingcart_item (quantity, flower_id, shoppingcart_id) VALUES (2, 1, 1);
+INSERT INTO shoppingcart_item (quantity, flower_id, shoppingcart_id) VALUES (3, 2, 1);
+INSERT INTO shoppingcart_item (quantity, flower_id, shoppingcart_id) VALUES (4, 3, 1);
