@@ -2,7 +2,7 @@
 Helsinki University Course "tietokantasovellus harjoitus"
 
 ## Testing
-Application is runnign on [Heroku](https://tsoha-flower-store.herokuapp.com/). You can test it with user username test@tester.io and password testing10. So far you should be able to login, create new user, see products, and see test user's shopping cart. Still under construction is possibility to add products to the shopping cart, update quantities and finally placing orders. Also admin view is still on its way.
+Application current progress is about 50 %. Application is running on [Heroku](https://tsoha-flower-store.herokuapp.com/). You can test it with user username test@tester.io and password testing10. So far you should be able to login, create new user, see products, and see test user's shopping cart. Still under construction is possibility to add more products to the shopping cart, update quantities and finally placing orders. Also admin view is still on its way.
  
 ## Introduction
 The application is an online store where you can buy flowers. New customers have to register to the system. Once that is done customers can sign in, navigate through products (that is flowers), add them in a temporary shopping cart and finally place an order.
