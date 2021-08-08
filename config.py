@@ -7,6 +7,8 @@ load_dotenv()
 basedir = os.path.abspath(os.path.dirname(__file__))
 user = os.getenv('POSTGRES_USER')
 password = os.getenv('POSTGRES_PASSWORD')
+production_database_url = os.getenv('DATABASE_URL')
+development_database_url = os.getenv('POSTGRES_URL')
 # host = os.environ['POSTGRES_HOST']
 # database = os.environ['POSTGRES_DB']
 # port = os.environ['POSTGRES_PORT']
@@ -21,7 +23,7 @@ class Config(object):
 
 class DevelopmentConfig(Config):    
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:flower@localhost:5438"
+    SQLALCHEMY_DATABASE_URI = development_database_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class TestingConfig(Config):
