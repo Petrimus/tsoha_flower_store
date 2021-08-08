@@ -1,1 +1,1 @@
-web: gunicorn flower_store:create_app()
+web: gunicorn "flower_store:create_app()"
