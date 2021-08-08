@@ -32,4 +32,4 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     FLASK_ENV = 'production'
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URl')
+    SQLALCHEMY_DATABASE_URI = "postgres://txjwpeazvjgcoy:60114927eb8a46de56b219042b4924a430100e22633dbfc97c0aee35935c59f0@ec2-3-230-38-145.compute-1.amazonaws.com:5432/d3scfbo5fit0gf"
