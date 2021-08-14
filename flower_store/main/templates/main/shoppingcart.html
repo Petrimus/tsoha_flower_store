@@ -2,29 +2,28 @@
 <!-- prettier ignore -->
 {% block content %}
 <div class="container">
-  <div class="row mx-4 my-4">
+  <div class="row mx-2 my-2">
     <div class="col-md-8">
       <div class="title">
         <h4><b>Shopping Cart</b></h4>
       </div>
       <div class="row border-top border-bottom">
         {% for flower in cart %}
-        <div class="row main align-items-center">
-          <div class="col-2 mt-2">
+        <div class="row main align-items-center my-2">
+          <div class="col-2 ">
             <img class="img-fluid" src="{{flower.picture}}" />
           </div>
-          <div class="col">
+          <div class="col-2">
             <div class="row text-muted">{{flower.latin_name}}</div>
             <div class="row">{{flower.name}}</div>
           </div>
-          <div class="col">
-            <div class="input-group mt-2">
+          <form class="col-4">
+            <div class="input-group">
               <span class="input-group-btn">
                 <button
                   type="button"
-                  class="btn btn-danger btn-number minus"
-                  id="minus"
-                  onclick="decreaseValue()"
+                  class="btn btn-danger btn-number minus plus_minus"
+                  name="minus"
                 >
                   <i class="bi bi-dash-lg"></i>
                 </button>
@@ -37,28 +36,41 @@
                 min="1"
                 max="15"
                 name="amount"
+                width="50"
               />
               <input type="hidden" name="id" value="{{ id }}" />
               <span class="input-group-btn">
                 <button
                   type="button"
-                  class="btn btn-success btn-number"
-                  id="plus"
-                  onclick="increaseValue()"
+                  class="btn btn-success btn-number plus_minus"
+                  name="plus"
                 >
                   <i class="bi bi-plus-lg"></i>
                 </button>
               </span>
+              <div style="margin: auto 0;">
+                <button type="submit" class="btn btn-info btn-sm mx-3">
+                  refresh
+                </button>
+              </div>
             </div>
+          </form>
+          <div class="col-2">
+            &euro; {{flower.total_price}}
+            <span class="close"
+              >&#10005; {{flower.total_price}} {{flower.total_price}}</span
+            >
           </div>
-          <div class="col">
-            &euro; {{flower.total_price}} <span class="close">&#10005;</span>
-          </div>
+          <form class="col-2">
+            <button type="submit" class="btn btn-danger btn-sm">remove</button>
+          </form>
         </div>
+        <hr style="margin: 0">
         {% endfor %}
       </div>
-      <div class="back-to-shop">
+      <div class="row">
         <a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span>
+        <button class="btn btn-danger">update order</button>
       </div>
     </div>
     <div class="col-md-4 summary" style="background-color: #e7e9eb">
@@ -93,26 +105,5 @@
   </div>
 </div>
 
-<script>
-  function increaseValue() {
-    document.getElementById('minus').disabled = false;
-    var value = parseInt(document.getElementById('number').value, 10);
-    value = isNaN(value) ? 0 : value;
-    console.log(typeof value);
-    value++;
-    if (value == 15) document.getElementById('plus').disabled = true;
-    document.getElementById('number').value = value;
-  }
-
-  function decreaseValue() {
-    console.log('button clicked');
-    document.getElementById('plus').disabled = false;
-    var value = parseInt(document.getElementById('number').value, 10);
-    value = isNaN(value) ? 0 : value;
-    value < 1 ? (value = 1) : '';
-    value--;
-    if (value == 1) document.getElementById('minus').disabled = true;
-    document.getElementById('number').value = value;
-  }
-</script>
+<script src="/static/javascript/shoppingcart.js"></script>
 {% endblock %}
