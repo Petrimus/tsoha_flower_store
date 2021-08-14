@@ -10,14 +10,14 @@
       <div class="row border-top border-bottom">
         {% for flower in cart %}
         <div class="row main align-items-center my-2">
-          <div class="col-2 ">
+          <div class="col-2">
             <img class="img-fluid" src="{{flower.picture}}" />
           </div>
           <div class="col-2">
             <div class="row text-muted">{{flower.latin_name}}</div>
             <div class="row">{{flower.name}}</div>
           </div>
-          <form class="col-4">
+          <div class="col-4">
             <div class="input-group">
               <span class="input-group-btn">
                 <button
@@ -30,6 +30,7 @@
               </span>
               <input
                 type="number"
+                name="{{flower.id}}"
                 class="form-control input-number"
                 id="number"
                 value="{{flower.quantity}}"
@@ -48,13 +49,8 @@
                   <i class="bi bi-plus-lg"></i>
                 </button>
               </span>
-              <div style="margin: auto 0;">
-                <button type="submit" class="btn btn-info btn-sm mx-3">
-                  refresh
-                </button>
-              </div>
             </div>
-          </form>
+          </div>
           <div class="col-2">
             &euro; {{flower.total_price}}
             <span class="close"
@@ -65,12 +61,25 @@
             <button type="submit" class="btn btn-danger btn-sm">remove</button>
           </form>
         </div>
-        <hr style="margin: 0">
+        <hr style="margin: 0" />
         {% endfor %}
       </div>
-      <div class="row">
-        <a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span>
-        <button class="btn btn-danger">update order</button>
+      <div class="row main align-items-center my-2">
+        <div class="col-4">
+          <a href="#" style="text-decoration: none">
+            <span class="text-muted">&leftarrow; Back to shop</span>
+          </a>
+        </div>
+        <div class="col-8">
+          <form class="d-grid gap-2">
+            {% for flower in cart %}
+            <input type="input" name="{{flower.id}}" value="1" id="{{flower.id}}" />
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-lg btn-block">
+              update order
+            </button>
+          </form>
+        </div>
       </div>
     </div>
     <div class="col-md-4 summary" style="background-color: #e7e9eb">
