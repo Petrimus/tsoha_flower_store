@@ -37,52 +37,28 @@
               <dd>{{flower.quantity}}</dd>
             </dl>
             <hr />
-            <!-- <div class="row"> -->
-            <div class="col-sm-3">
-              <dl class="param param-inline">
-                <dt>Quantity:</dt>
-                <dd>
-                  <!-- <div style="margin: 20px auto"> -->
-                  <form >
-                    <button
-                      type="submit"
-                      class="btn btn-outline-success btn-lg"
-                    >
-                      Add to cart
-                    </button>
-                  </form>
-                </dd>
-              </dl>
-            </div>
+            <dl class="param param-feature">
+              <dt>Quantity:</dt>
+              <dd></dd>
+            </dl>
+            <dl class="param param-feature">
+              <a
+                href="{{'/shoppingcart/add_flower/{}/{}'.format(flower.id, cart_id)}}"
+                class="btn btn-success"
+                role="button"
+                >Add to the shopping cart</a
+              >
+            </dl>
             <hr />
           </article>
         </div>
       </div>
     </div>
-    <div style="margin: -10px 0px 20px 20px">
-      <a href="/flowers">Back to the main flower list</a>
+    <div class="row" style="text-align: center;">
+      <a href="/flowers" style="text-decoration: none">
+        <span class="text-muted"><strong>&leftarrow; Back to shop</strong></span>
+      </a>
     </div>
-  </div>
-  <script>
-    function increaseValue() {
-      document.getElementById('minus').disabled = false;
-      var value = parseInt(document.getElementById('number').value, 10);
-      value = isNaN(value) ? 0 : value;
-      console.log(typeof value);
-      value++;
-      if (value == 15) document.getElementById('plus').disabled = true;
-      document.getElementById('number').value = value;
-    }
-
-    function decreaseValue() {
-      document.getElementById('plus').disabled = false;
-      var value = parseInt(document.getElementById('number').value, 10);
-      value = isNaN(value) ? 0 : value;
-      value < 1 ? (value = 1) : '';
-      value--;
-      if (value == 1) document.getElementById('minus').disabled = true;
-      document.getElementById('number').value = value;
-    }
-  </script>
+  </div>  
   {% endblock %}
 </div>

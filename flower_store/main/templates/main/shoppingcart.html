@@ -52,29 +52,49 @@
             </div>
           </div>
           <div class="col-2">
-            &euro; {{flower.total_price}}
-            <span class="close"
-              >&#10005; {{flower.total_price}} {{flower.total_price}}</span
+            {{flower.quantity}}
+            <span
+              >&#10005; {{flower.price}} <br />
+              <strong>{{flower.total_price}} &euro;</strong></span
             >
           </div>
-          <form class="col-2">
-            <button type="submit" class="btn btn-danger btn-sm">remove</button>
-          </form>
+          <div class="col-2">
+            <a
+              href="{{'/shoppingcart/remove/{}/{}'.format(flower.id, cart_id)}}"
+              class="btn btn-danger btn-sm"
+              role="button"
+              >Remove flower</a
+            >
+          </div>
         </div>
         <hr style="margin: 0" />
         {% endfor %}
       </div>
       <div class="row main align-items-center my-2">
         <div class="col-4">
-          <a href="#" style="text-decoration: none">
+          <a href="/flowers" style="text-decoration: none">
             <span class="text-muted">&leftarrow; Back to shop</span>
           </a>
         </div>
         <div class="col-8">
-          <form class="d-grid gap-2">
+          <form
+            action="/shoppingcart/update_shopping_cart"
+            method="POST"
+            class="d-grid gap-2"
+          >
             {% for flower in cart %}
-            <input type="input" name="{{flower.id}}" value="1" id="{{flower.id}}" />
+            <input
+              type="hidden"
+              name="{{flower.id}}"
+              value="{{flower.quantity}}"
+              id="{{flower.id}}"
+            />
             {% endfor %}
+            <input
+              type="hidden"
+              name="shopping_cart_id"
+              value="{{ cart_id }}"
+            />
             <button type="submit" class="btn btn-primary btn-lg btn-block">
               update order
             </button>
@@ -105,9 +125,11 @@
         <div class="col text-right">&euro; {{aggregate.total}}</div>
       </div>
       <div class="row mt-4 mx-2">
-        <form action="shoppingcart/order" method="POST">
+        <form class="d-grid gap-2" action="shoppingcart/order" method="POST">
           <input type="hidden" name="order_id" value="{{cart_id}}" />
-          <button type="submit" class="btn btn-success">Place order</button>
+          <button type="submit" class="btn btn-success btn-lg btn-block">
+            Place order
+          </button>
         </form>
       </div>
     </div>

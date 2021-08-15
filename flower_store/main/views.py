@@ -40,27 +40,32 @@ def single_flower(id):
 
     result = db.session.execute(sql, {"id": id})
     flower = result.fetchone()
+    cart_id = session["shoppingcart_id"]
 
-    return render_template('main/single_flower.html', flower=flower, id=id)
+    return render_template('main/single_flower.html', flower=flower, id=id, cart_id=cart_id)
 
 
 @main_blueprint.route("/shoppingcart")
 @login_required
 def shoppingcart():
     user_id = session["user_id"]
-    cart_sql = ("SELECT shoppingcart.id as cart_id, shoppingcart_item.quantity, flower.*, shoppingcart_item.quantity*flower.price as TOTAL_PRICE FROM shoppingcart, shoppingcart_item, flower WHERE shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id=1"
-    "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;")
+    cart_sql = ("SELECT shoppingcart.id as cart_id, shoppingcart_item.quantity, flower.*, shoppingcart_item.quantity*flower.price as TOTAL_PRICE "
+                "FROM shoppingcart, shoppingcart_item, flower WHERE shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id=1"
+                "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;")
 
     aggregate_sql = ("SELECT SUM(shoppingcart_item.quantity*flower.price) as TOTAL, COUNT(flower.id) as QUANTITY, SUM(shoppingcart_item.quantity) as QUANTITY_total "
-    "FROM shoppingcart, shoppingcart_item, flower "
-    "WHERE shoppingcart.flower_user_id={} AND shoppingcart.status_id=1 "
-    "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;".format(user_id))
+                     "FROM shoppingcart, shoppingcart_item, flower "
+                     "WHERE shoppingcart.flower_user_id={} AND shoppingcart.status_id=1 "
+                     "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;".format(user_id))
 
-    shoppingcart_result = db.session.execute(cart_sql, {"user_id": user_id}).fetchall()
+    shoppingcart_result = db.session.execute(
+        cart_sql, {"user_id": user_id}).fetchall()
+
     aggregate_result = db.session.execute(aggregate_sql).fetchone()
-    shoppingcart_id = db.session.execute("SELECT id FROM shoppingcart WHERE flower_user_id={} AND status_id=1".format(user_id)).fetchone()
-    return render_template('main/shoppingcart.html', cart=shoppingcart_result, aggregate=aggregate_result, cart_id=shoppingcart_id)
+    shopping_cart_id = db.session.execute(
+        "SELECT id as cart_id FROM shoppingcart WHERE flower_user_id={} AND status_id=1".format(user_id)).fetchone()
 
+    return render_template('main/shoppingcart.html', cart=shoppingcart_result, aggregate=aggregate_result, cart_id=shopping_cart_id.cart_id)
 
 
 @main_blueprint.route("/shoppingcart/order", methods=["POST"])
@@ -68,5 +73,35 @@ def shoppingcart():
 def place_order():
     firstname = request.form["order_id"]
     print(firstname)
+
+    return redirect('/shoppingcart')
+
+
+@main_blueprint.route("/shoppingcart/update_shopping_cart", methods=["post"])
+@login_required
+def update_shoppingcart():
+    shoppingcart_id = request.form["shopping_cart_id"]
+    print(request.form)
+
+    for flower_id, quant in request.form.items():
+
+        if (flower_id != 'shopping_cart_id'):
+            print(flower_id)
+            print(quant)
+            print(shoppingcart_id)
+            update_sql = ("UPDATE shoppingcart_item "
+                          "SET quantity=:quantity, modified_at=CURRENT_TIMESTAMP "
+                          "WHERE shoppingcart_item.flower_id=:flower_id AND shoppingcart_item.shoppingcart_id=:cart_id;")
+
+            db.session.execute(
+            update_sql, {"quantity": int(quant), "flower_id": int(flower_id), "cart_id": int(shoppingcart_id)})
+    db.session.commit()
+    return redirect('/shoppingcart')
+
+@main_blueprint.route("/shoppingcart/remove/<int:flower_id>/<int:cart_id>")
+@login_required
+def remove_item_from_cart(flower_id, cart_id):
+    db.session.execute("DELETE FROM shoppingcart_item WHERE shoppingcart_item.flower_id={} AND shoppingcart_item.shoppingcart_id={};".format(flower_id, cart_id))
+    db.session.commit()
 
     return redirect('/shoppingcart')
