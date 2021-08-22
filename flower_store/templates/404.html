@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Page Not Found</title>
+    <script language="JavaScript" type="text/javascript">
+      var seconds = 4;
+      var url = "{{url_for('main.home')}}";
+
+      function redirect() {
+        if (seconds <= 0) {
+          window.location = url;
+        } else {
+          seconds--;
+          document.getElementById('pageInfo').innerHTML =
+            'Redirecting to Home Page after ' + seconds + ' seconds.';
+          setTimeout('redirect()', 1000);
+        }
+      }
+    </script>
+  </head>
+  {% extends "/main/layouts/base_layout.html" %}
+  <!-- prettier ignore -->
+  {% block content %}
+  <body onload="redirect()">
+    <div class="container mt-5">
+      <h2>Sorry, page is not found</h2>
+      <p id="pageInfo"></p>
+    </div>
+  </body>
+  <!-- prettier ignore -->
+  {% endblock %}
+</html>

@@ -1,5 +1,5 @@
 from . import main_blueprint
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session, abort
 from flower_store import db
 from flower_store import login_required
 
@@ -42,8 +42,7 @@ def single_flower(id):
         result = db.session.execute(
             "SELECT id FROM shoppingcart_item WHERE flower_id={} AND shoppingcart_id={};".format(id, cart_id))
 
-        if not result.fetchone():
-            print('täällä')
+        if not result.fetchone():            
             db.session.execute(
                 "INSERT INTO shoppingcart_item (flower_id, shoppingcart_id) VALUES ({}, {});".format(id, shoppingcart_id))
             db.session.commit()
@@ -57,6 +56,9 @@ def single_flower(id):
     result = db.session.execute(
         single_sql, {"flower_id": id, "shoppingcart_id": cart_id})
     flower = result.fetchone()
+
+    if not flower:
+        abort(404) 
 
     return render_template('main/single_flower.html', flower=flower, id=id, cart_id=cart_id, message=message)
 

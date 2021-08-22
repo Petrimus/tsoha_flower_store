@@ -18,6 +18,7 @@ def create_app():
     db.init_app(app)
     register_blueprints(app)
     app.jinja_env.filters['datetime'] = format_datetime
+    app.errorhandler(404)(handle_404_error)
 
     return app
 
@@ -54,11 +55,15 @@ def login_required(f):
 
     return wrap
 
+
 def format_datetime(value, format='medium'):
     if format == 'full':
-        format="EEEE, d. MMMM y 'at' HH:mm"
+        format = "EEEE, d. MMMM y 'at' HH:mm"
     elif format == 'medium':
-        format="EE dd.MM.y HH:mm"
+        format = "EE dd.MM.y HH:mm"
     elif format == 'short':
-        format="EE dd.MM.y"
-    return babel.dates.format_datetime(value, format)   
+        format = "EE dd.MM.y"
+    return babel.dates.format_datetime(value, format)
+
+def handle_404_error(event):
+    return render_template("404.html")

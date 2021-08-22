@@ -1,13 +1,42 @@
 {% extends "/main/layouts/base_layout.html" %}
 <!-- prettier ignore -->
 {% block content %}
-<div class="container mt-5">
-  <h2>Wellcome to the Flower store</h2>
-  <p>You can purchase flowers from a nice 
-    selection of carefully selected flowers that will interspire your home or office.</p>
-  <div>
 
+<div
+  class="container mt-5"
+  style="text-align: center; padding: 0; border-radius: 20px"
+>
+  <div
+    class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white"
+    style="
+      background-image: url('/static/images/daalia.jpg');
+      height: 80vh;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 20px;
+    "
+  >
+    <div
+      class="py-5"
+      style="
+        background-color: #5b5959;
+        border-radius: 10px;
+        opacity: 0.95;
+        width: 100%;
+      "
+    >
+      <h2>Wellcome to the Flower store</h2>
+      <p>
+        You can purchase flowers from a nice selection of carefully selected
+        flowers that will interspire your home or office.
+      </p>
+
+      <a href="/flowers"
+        ><button type="button" class="btn btn-success">
+          Our product category
+        </button></a
+      >
+    </div>
   </div>
-  <a href="/flowers"><button type="button" class="btn btn-success">Our product category</button></a>
 </div>
 {% endblock %}
