@@ -6,15 +6,13 @@ from flower_store import login_required
 
 @main_blueprint.route('/')
 def index():
-
-    # return render_template('main/index.html')
+   
     return redirect('/main_page')
 
 
 @main_blueprint.route('/main_page')
 def home():
-
-    # return render_template('main/index.html')
+  
     return render_template('main/main_page.html')
 
 
@@ -36,7 +34,6 @@ def all_flowers():
 @main_blueprint.route("/flower/<int:id>", methods=["GET", "POST"])
 @login_required
 def single_flower(id):
-    print(id)
     cart_id = session["shoppingcart_id"]
     message = ""
     if request.method == 'POST':
@@ -60,41 +57,21 @@ def single_flower(id):
     result = db.session.execute(
         single_sql, {"flower_id": id, "shoppingcart_id": cart_id})
     flower = result.fetchone()
-    print('selected: {}'.format(flower.selected))
-    
+
     return render_template('main/single_flower.html', flower=flower, id=id, cart_id=cart_id, message=message)
 
 
 @main_blueprint.route("/shoppingcart")
 @login_required
 def shoppingcart():
-    user_id = session["user_id"]
     cart_id = session["shoppingcart_id"]
-
-    cart_sql = ("SELECT shoppingcart.id as cart_id, shoppingcart_item.quantity, flower.*, shoppingcart_item.quantity*flower.price as TOTAL_PRICE "
-                "FROM shoppingcart, shoppingcart_item, flower WHERE shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id=1"
-                "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;")
-
-    aggregate_sql = ("SELECT SUM(shoppingcart_item.quantity * flower.price) as TOTAL, "
-                     "COUNT(flower.id) as QUANTITY, SUM(shoppingcart_item.quantity) as QUANTITY_total "
-                     "FROM shoppingcart, shoppingcart_item, flower "
-                     "WHERE shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id=1 "
-                     "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;")
-
-    shoppingcart_result = db.session.execute(cart_sql, {"user_id": user_id}).fetchall()
-
-    aggregate_result = db.session.execute(
-        aggregate_sql, {"shoppingcart_id": cart_id, "user_id": user_id}).fetchone()
-   
-    
-    return render_template('main/shoppingcart.html', cart=shoppingcart_result, aggregate=aggregate_result, cart_id=cart_id)
+    return render_template('main/shoppingcart.html', cart=get_cart_info(), aggregate=get_aggregate_total(), cart_id=cart_id)
 
 
 @main_blueprint.route("/shoppingcart/order", methods=["POST"])
 @login_required
 def place_order():
-    firstname = request.form["order_id"]
-    print(firstname)
+    firstname = request.form["order_id"]   
 
     return redirect('/shoppingcart')
 
@@ -130,10 +107,12 @@ def remove_item_from_cart(flower_id, cart_id):
 
     return redirect('/shoppingcart')
 
+
 @main_blueprint.route("/flower/search", methods=["POST"])
 def nav_search():
 
     return "kissa"
+
 
 @main_blueprint.route("/orders")
 @login_required
@@ -141,12 +120,42 @@ def order_list():
     shoppingcart_id = session["shoppingcart_id"]
     user_id = session["user_id"]
 
-    order_sql = ("SELECT shoppingcart.id, shoppingcart.status_id, "
-    "shoppingcart_status.status_text AS status, shoppingcart_status.id AS status_id "
-    "FROM shoppingcart, shoppingcart_status WHERE shoppingcart.status_id=shoppingcart_status.id "
-    "AND shoppingcart.flower_user_id=:user_id ORDER BY shoppingcart.status_id;")
-    
+    order_sql = ("SELECT shoppingcart.id AS cart_id, shoppingcart.status_id, "
+                 "shoppingcart_status.status_text AS status, shoppingcart_status.id AS status_id "
+                 "FROM shoppingcart, shoppingcart_status WHERE shoppingcart.status_id=shoppingcart_status.id "
+                 "AND shoppingcart.flower_user_id=:user_id ORDER BY shoppingcart.status_id;")
+
     order_list = db.session.execute(order_sql, {"user_id": user_id}).fetchall()
     print(order_list)
-    
-    return render_template('main/orders.html', orders=order_list)
+
+    return render_template("main/orders.html", orders=order_list)
+
+
+@main_blueprint.route("/order/<int:cart_id>")
+def single_order(cart_id):
+   
+    return render_template("main/order.html", cart=get_cart_info(), aggregate=get_aggregate_total(), cart_id=cart_id)
+
+
+def get_aggregate_total():
+    cart_id = session["shoppingcart_id"]
+    user_id = session["user_id"]
+
+    aggregate_sql = ("SELECT SUM(shoppingcart_item.quantity * flower.price) as TOTAL, shoppingcart.modified_at, "
+                     "COUNT(flower.id) as QUANTITY, SUM(shoppingcart_item.quantity) as QUANTITY_total "
+                     "FROM shoppingcart, shoppingcart_item, flower "
+                     "WHERE shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id=1 "
+                     "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id GROUP BY shoppingcart.modified_at;")
+
+    return db.session.execute(
+        aggregate_sql, {"shoppingcart_id": cart_id, "user_id": user_id}).fetchone()
+
+
+def get_cart_info():
+    user_id = session["user_id"]
+    cart_sql = ("SELECT shoppingcart.id AS cart_id, shoppingcart_item.quantity, flower.*, shoppingcart_item.quantity*flower.price as TOTAL_PRICE "
+                "FROM shoppingcart, shoppingcart_item, flower WHERE shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id=1"
+                "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id;")
+
+    return db.session.execute(
+        cart_sql, {"user_id": user_id}).fetchall()

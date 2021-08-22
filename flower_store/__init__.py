@@ -1,21 +1,26 @@
 import os
+import babel
 from flask import Flask, render_template, redirect, session, flash, url_for
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from os import getenv
+from babel.dates import format_datetime
 
 db = SQLAlchemy()
+
 
 def create_app():
     app = Flask(__name__)
 
-    CONFIG_TYPE = os.getenv('CONFIG_TYPE', default='config.ProductionConfig')    
-    app.config.from_object(CONFIG_TYPE)    
+    CONFIG_TYPE = os.getenv('CONFIG_TYPE', default='config.ProductionConfig')
+    app.config.from_object(CONFIG_TYPE)
     app.secret_key = getenv("SECRET_KEY")
     db.init_app(app)
-    register_blueprints(app)    
+    register_blueprints(app)
+    app.jinja_env.filters['datetime'] = format_datetime
 
     return app
+
 
 def register_blueprints(app):
     from flower_store.auth import auth_blueprint
@@ -37,6 +42,7 @@ def register_error_handlers(app):
 def configure_logging(app):
     pass
 
+
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -47,3 +53,12 @@ def login_required(f):
             return redirect(url_for('auth.login'))
 
     return wrap
+
+def format_datetime(value, format='medium'):
+    if format == 'full':
+        format="EEEE, d. MMMM y 'at' HH:mm"
+    elif format == 'medium':
+        format="EE dd.MM.y HH:mm"
+    elif format == 'short':
+        format="EE dd.MM.y"
+    return babel.dates.format_datetime(value, format)   

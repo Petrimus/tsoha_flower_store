@@ -22,7 +22,7 @@
             <td>Otto</td>
             <td>@mdo</td>
             <td>6</td>
-            <td><a href="#">See details</a></td>         
+            <td><a href="{{ '/order/{}'.format(order.cart_id) }}">See details</a></td>         
           </tr>       
         {% endfor %}
       </tbody>

@@ -52,7 +52,7 @@ CREATE TABLE shoppingcart_status (
 CREATE TABLE shoppingcart (
   id SERIAL PRIMARY KEY,   
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  modified_at TIMESTAMP,
+  modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   status_id INTEGER REFERENCES shoppingcart_status,
   flower_user_id INTEGER REFERENCES flower_user  
 );

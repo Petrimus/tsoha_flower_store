@@ -1,0 +1,56 @@
+{% extends "/main/layouts/base_layout.html" %}
+<!-- prettier ignore -->
+{% block content %}
+<div class="container">
+  <div class="row mx-2 my-2">
+    <div class="col-md-8">
+      <div class="title">
+        <h3><strong>Order {{ cart_id }} </strong> ({{aggregate.modified_at | datetime}})</h3>
+      </div>
+      <div class="row border-top border-bottom">
+        {% for flower in cart %}
+        <div class="row main align-items-center my-2">
+          <div class="col-2">
+            <img class="img-fluid" src="{{flower.picture}}" />
+          </div>
+          <div class="col-5">
+            <div class="row text-muted">{{flower.latin_name}}</div>
+            <div class="row">{{flower.name}}</div>
+          </div>
+          <div class="col-5">
+            {{flower.quantity}}
+            <span
+              >&#10005; {{flower.price}}  = <strong>{{flower.total_price}} &euro;</strong></span
+            >
+          </div>
+        </div>
+        <hr style="margin: 0" />
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-4 summary" style="background-color: #e7e9eb">
+      <div style="margin-top: 1em">
+        <h5><b>Summary</b></h5>
+      </div>
+      <hr />
+      <div class="row mt-4">
+        <div class="col">flowers items</div>
+        <div class="col text-right">{{aggregate.quantity}}</div>
+      </div>
+      <div class="row mt-4">
+        <div class="col">flowers total</div>
+        <div class="col text-right">{{aggregate.quantity_total}}</div>
+      </div>
+      <div class="row mt-4">
+        <div class="col">Status</div>
+        <div class="col text-right">Open</div>
+      </div>
+      <hr />
+      <div class="row mt-4">
+        <div class="col">TOTAL PRICE</div>
+        <div class="col text-right">&euro; {{aggregate.total}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
