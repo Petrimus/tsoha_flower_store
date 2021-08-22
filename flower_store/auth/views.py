@@ -101,8 +101,9 @@ def create_shoppingcart(user_id):
 
     if (not cart):
         result = db.session.execute(insert_sql)
-        [new_id] = result.fetchone()
-        print(new_id)
+        new_id = result.fetchone()[0]
+        db.session.commit()
+        
         sc_sql = "SELECT id FROM shoppingcart WHERE flower_user_id=:id"
         cart = db.session.execute(sc_sql, {"id": new_id}).fetchone()
 

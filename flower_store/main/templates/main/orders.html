@@ -1,0 +1,20 @@
+{% extends "/main/layouts/base_layout.html" %}
+<!-- prettier ignore -->
+{% block content %}
+<div class="container mt-5">
+  <div>
+    {% for order in orders %}
+    <ul class="list-group">
+      <li class="list-group-item">
+        {{order.status}}
+      </li>
+    </ul>
+    {% endfor %}
+  </div>
+  <a href="/flowers"
+    ><button type="button" class="btn btn-success">
+      Our product category
+    </button></a
+  >
+</div>
+{% endblock %}

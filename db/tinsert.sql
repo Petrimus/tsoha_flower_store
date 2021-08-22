@@ -6,9 +6,12 @@ INSERT INTO flower (name, latin_name, description, price, picture, picture_alt, 
 INSERT INTO flower (name, latin_name, description, price, picture, picture_alt, created_at) VALUES ('Geranium', 'Pelargonium', 'Pelargonien sukuun kuuluu monenlaisia ruukkukasveja, yrttejä, varpukasveja ja pensaita, joilla kaikilla on oma ainutlaatuinen kasvutapansa ja ulkonäkönsä. (lähde: Plantagen, https://www.plantagen.fi/pelargoni.html', 3.75, '/static/images/pelargonia.jpg', 'pelargonia', '2021-06-22 19:10:25-07');
 INSERT INTO flower (name, latin_name, description, price, picture, picture_alt, created_at) VALUES ('Verbena', 'Verbena', 'Rautayrtti on helppohoitoinen ja voimakaskasvuinen ruukku- ja amppelikasvi, joka kestää hyvin myös alhaisia lämpötiloja. (Lähde: Lepola, https://www.lepola.fi/tuotteet/kesakukat/rautayrtti', 0.90, '/static/images/rautayrtti.jpg', 'rautayrtti', '2021-06-22 19:10:25-07');
 INSERT INTO flower (name, latin_name, description, price, picture, picture_alt, created_at) VALUES ('Rose', 'Loise Bugnet', 'Kaunis Kurtturuusu. Voimakas ja tuuhea ja lähes piikitön kasvusto. Punertavista nupuista kuoriutuu valkoinen tuoksuva kukka. Viihtyy niukkaravinteisessakin maassa auringosta puolivarjoon.', 6.80, '/static/images/ruusu.jpg', 'ruusu', '2021-06-22 19:10:25-07');
-INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (12, '2021-06-22 19:10:25-07', '2021-06-29 19:10:25-07', 1);
+INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (13, '2021-06-22 19:10:25-07', '2021-06-29 19:10:25-07', 1);
 INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (21, '2021-06-22 19:10:25-07', '2021-06-29 19:10:25-07', 2);
-INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (8, '2021-06-22 19:10:25-07', '2021-06-29 19:10:25-07', 3);
+INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (10, '2021-06-22 19:10:25-07', '2021-06-29 19:10:25-07', 3);
+INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (54, '2021-06-22 19:10:25-07', '2021-06-29 19:10:25-07', 4);
+INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (32, '2021-06-22 19:10:25-07', '2021-06-29 19:10:25-07', 5);
+INSERT INTO inventory (quantity, last_restock, next_restock, flower_id) VALUES (45, '2021-06-22 19:10:25-07', '2021-06-29 19:10:25-07', 6);
 INSERT INTO shoppingcart_status (status_text) VALUES ('open'), ('ordered'), ('completed'), ('deleted'); 
 INSERT INTO shoppingcart (created_at, status_id, flower_user_id) VALUES ('2021-06-22 19:10:25-07', 1, 1);
 INSERT INTO shoppingcart_item (quantity, flower_id, shoppingcart_id) VALUES (2, 1, 1);

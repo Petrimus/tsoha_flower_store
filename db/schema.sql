@@ -59,9 +59,9 @@ CREATE TABLE shoppingcart (
 
 CREATE TABLE shoppingcart_item (
   id SERIAL PRIMARY KEY,
-  quantity INTEGER DEFAULT 0 NOT NULL,
+  quantity INTEGER DEFAULT 1 NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  modified_at TIMESTAMP,
+  modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   flower_id INTEGER REFERENCES flower,
   shoppingcart_id INTEGER REFERENCES shoppingcart
 );

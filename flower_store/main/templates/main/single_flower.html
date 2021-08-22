@@ -4,10 +4,15 @@
     <div class="row no-gutters">
       <div class="col-auto">
         <div class="img-big-wrap">
-          <img src="/static/images/samettikukka.jpg" width="500" height="600" />
+          <img src="{{ flower.picture }}" width="500" height="600" />
         </div>
       </div>
       <div class="col">
+        {% if message %}
+        <div class="alert alert-warning" id="flower_message" role="alert">
+          {{ message }}
+        </div>
+        {% endif %}
         <div class="card-block px-2">
           <article class="card-body p-5">
             <h3 class="title mb-3">{{flower.name}}</h3>
@@ -36,29 +41,58 @@
               <dt>Available in stock</dt>
               <dd>{{flower.quantity}}</dd>
             </dl>
-            <hr />
+            <hr />           
             <dl class="param param-feature">
-              <dt>Quantity:</dt>
-              <dd></dd>
-            </dl>
-            <dl class="param param-feature">
-              <a
-                href="{{'/shoppingcart/add_flower/{}/{}'.format(flower.id, cart_id)}}"
-                class="btn btn-success"
-                role="button"
-                >Add to the shopping cart</a
-              >
+              <form action="{{ '/flower/{}'.format(flower.id) }}" method="POST">
+                <input
+                  type="hidden"
+                  name="flower_name"
+                  value="{{flower.name}}"
+                />
+                {% if flower.selected == 0 %}
+                <button type="submit" id="single_submit" class="btn btn-success">
+                  Add to the shopping cart
+                </button>
+                {% else %}
+                <button type="text" id="single_submit" class="btn btn-success" disabled>
+                  Flower already in the shopping cart
+                </button>
+                {% endif %}
+              </form>
             </dl>
             <hr />
           </article>
         </div>
       </div>
     </div>
-    <div class="row" style="text-align: center;">
+    <div class="row my-4" style="text-align: center">
       <a href="/flowers" style="text-decoration: none">
-        <span class="text-muted"><strong>&leftarrow; Back to shop</strong></span>
+        <span class="text-muted"
+          ><strong>&leftarrow; Back to shop</strong></span
+        >
       </a>
     </div>
-  </div>  
-  {% endblock %}
+  </div>
 </div>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+  integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+  integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+  crossorigin="anonymous"
+></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  window.setTimeout(function () {
+    console.log('toimiko???');
+    $('#flower_message')
+      .fadeTo(500, 0)
+      .slideUp(500, function () {
+        $(this).remove();
+      });
+  }, 4000);
+</script>
+{% endblock %}
