@@ -3,18 +3,30 @@
 {% block content %}
 <div class="container mt-5">
   <div>
-    {% for order in orders %}
-    <ul class="list-group">
-      <li class="list-group-item">
-        {{order.status}}
-      </li>
-    </ul>
-    {% endfor %}
-  </div>
-  <a href="/flowers"
-    ><button type="button" class="btn btn-success">
-      Our product category
-    </button></a
-  >
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Status</th>
+          <th scope="col">Time</th>
+          <th scope="col">Sum</th>
+          <th scope="col">Products</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}        
+          <tr>           
+            <th scope="row">{{loop.index}}</th>
+            <td>{{order.status}}</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>6</td>
+            <td><a href="#">See details</a></td>         
+          </tr>       
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>  
 </div>
 {% endblock %}
