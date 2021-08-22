@@ -94,7 +94,7 @@ def signup_result():
 
 
 def create_shoppingcart(user_id):
-    get_shoppingcart_sql = "SELECT * FROM shoppingcart WHERE flower_user_id=:id"
+    get_shoppingcart_sql = "SELECT * FROM shoppingcart WHERE flower_user_id=:id AND shoppingcart.status_id = 1;"
     cart = db.session.execute(get_shoppingcart_sql, {"id": user_id}).fetchone()
 
     insert_sql = "INSERT INTO shoppingcart (status_id, flower_user_id)  values (1, {}) RETURNING id;".format(user_id)
