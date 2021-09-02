@@ -19,6 +19,7 @@ def create_app():
     register_blueprints(app)
     app.jinja_env.filters['datetime'] = format_datetime
     app.errorhandler(404)(handle_404_error)
+    app.errorhandler(403)(handle_403_error)
 
     return app
 
@@ -67,3 +68,6 @@ def format_datetime(value, format='medium'):
 
 def handle_404_error(event):
     return render_template("404.html")
+
+def handle_403_error(event):
+    return render_template("unauthorized.html")
