@@ -27,18 +27,19 @@ def login():
     if (not username or not password):
         return render_template('auth/login.html', error_message="You must give username (email) and password")
 
-    get_user_sql = "SELECT id, password FROM flower_user WHERE username=:username"
+    get_user_sql = "SELECT id, password, is_admin FROM flower_user WHERE username=:username"
     result = db.session.execute(get_user_sql, {"username": username})
     user = result.fetchone()
+    print(user)
     if not user:
         return render_template('auth/login.html', error_message="Username or password incorrect")
     else:
         hash_value = user.password
 
-    if check_password_hash(hash_value, password):
-        # if (user.password == password):
+    if check_password_hash(hash_value, password):       
         session["username"] = username
         session["user_id"] = user.id
+        session["is_admin"] = user.is_admin
         ses_id = create_shoppingcart(user.id)
         session["shoppingcart_id"] = ses_id
         return redirect("/")
@@ -51,6 +52,8 @@ def logout():
     del session["username"]
     del session["user_id"]
     del session["shoppingcart_id"]
+    del session["is_admin"]
+
     return redirect("/")
 
 
