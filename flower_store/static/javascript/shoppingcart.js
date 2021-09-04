@@ -14,14 +14,13 @@ document.querySelectorAll('.plus_minus').forEach((item) => {
 
     if (item.name === 'plus') {
       var input =
-        item.parentElement.previousElementSibling.previousElementSibling;
-      console.log('input: ', input);
+        item.parentElement.previousElementSibling.previousElementSibling;     
       input.previousElementSibling.firstElementChild.disabled = false;
       var value = parseInt(input.value);
+      var maxValue = input.max
       value++;
-      if (value > 15) value = 15;
-      // console.log('child: ', input.nextElementSibling.nextElementSibling.firstChild)
-      if (value === 15) item.disabled = true;
+      if (value > maxValue) value = maxValue;      
+      if (value === maxValue) item.disabled = true;
       input.value = value;
       document.getElementById(input.name).value = value;
     }
@@ -38,8 +37,7 @@ function increaseValue() {
   document.getElementById('number').value = value;
 }
 
-function decreaseValue() {
-  console.log('button clicked');
+function decreaseValue() {  
   document.getElementById('plus').disabled = false;
   var value = parseInt(document.getElementById('number').value, 10);
   value = isNaN(value) ? 0 : value;

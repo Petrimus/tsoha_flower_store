@@ -75,6 +75,7 @@ def shoppingcart():
 @login_required
 def place_order():
     cart_id = request.form["order_id"]
+    csrf_token = request.form["csrf_token"]
     user_id = session["user_id"]
 
     order_sql = (
@@ -95,19 +96,20 @@ def place_order():
 @login_required
 def update_shoppingcart():
     shoppingcart_id = request.form["shopping_cart_id"]
+    # csrf_token = request.form["csrf_token"]
 
     for flower_id, quant in request.form.items():
 
-        if (flower_id != 'shopping_cart_id'):
-            print(flower_id)
-            print(quant)
-            print(shoppingcart_id)
+        if flower_id.isdigit():
+            print('flower_id ' + flower_id)
+            print('quantity ' + quant)
+            print('shoppingcart_id' + shoppingcart_id)
             update_sql = ("UPDATE shoppingcart_item "
                           "SET quantity=:quantity, modified_at=CURRENT_TIMESTAMP "
                           "WHERE shoppingcart_item.flower_id=:flower_id AND shoppingcart_item.shoppingcart_id=:cart_id;")
 
             db.session.execute(
-                update_sql, {"quantity": int(quant), "flower_id": int(flower_id), "cart_id": int(shoppingcart_id)})
+                update_sql, {"quantity": quant, "flower_id": flower_id, "cart_id": shoppingcart_id})
             db.session.commit()
 
     return redirect('/shoppingcart')
@@ -131,7 +133,7 @@ def nav_search():
 
 @main_blueprint.route("/orders")
 @login_required
-def order_list():   
+def order_list():
     user_id = session["user_id"]
 
     order_sql = ("SELECT shoppingcart.id AS cart_id, shoppingcart.status_id, shoppingcart.modified_at, "
@@ -140,7 +142,7 @@ def order_list():
                  "AND shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id > 1 "
                  "ORDER BY shoppingcart.status_id;")
 
-    order_list = db.session.execute(order_sql, {"user_id": user_id}).fetchall()    
+    order_list = db.session.execute(order_sql, {"user_id": user_id}).fetchall()
 
     return render_template("main/orders.html", orders=order_list)
 
@@ -151,7 +153,7 @@ def single_order(cart_id):
     return render_template("main/order.html", cart=get_cart_info(cart_id), aggregate=get_aggregate_total(cart_id), cart_id=cart_id)
 
 
-def get_aggregate_total(cart_id):    
+def get_aggregate_total(cart_id):
     user_id = session["user_id"]
 
     aggregate_sql = ("SELECT SUM(shoppingcart_item.quantity * flower.price) as TOTAL, shoppingcart.modified_at, "
@@ -165,10 +167,14 @@ def get_aggregate_total(cart_id):
 
 
 def get_cart_info(cart_id):
-   
-    cart_sql = ("SELECT shoppingcart.id AS cart_id, shoppingcart_item.quantity, flower.*, shoppingcart_item.quantity*flower.price as TOTAL_PRICE "
-                "FROM shoppingcart, shoppingcart_item, flower WHERE shoppingcart.id=:cart_id "
-                "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id ;")
 
-    return db.session.execute(
+    cart_sql = ("SELECT shoppingcart.id AS cart_id, shoppingcart_item.quantity, flower.*, shoppingcart_item.quantity*flower.price as TOTAL_PRICE, "
+                "inventory.quantity AS stock FROM shoppingcart, shoppingcart_item, flower, inventory WHERE shoppingcart.id=:cart_id "
+                "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id "
+                "AND inventory.flower_id=flower.id;")
+
+    result = db.session.execute(
         cart_sql, {"cart_id": cart_id}).fetchall()
+    
+    print(result)
+    return result

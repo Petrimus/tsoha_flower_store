@@ -35,7 +35,7 @@
                 id="number"
                 value="{{flower.quantity}}"
                 min="1"
-                max="15"
+                max={{flower.stock}}
                 name="amount"
                 width="50"
               />
@@ -86,7 +86,7 @@
             <input
               type="hidden"
               name="{{flower.id}}"
-              value="{{flower.quantity}}"
+              value="{{flower.quantity}}"             
               id="{{flower.id}}"
             />
             {% endfor %}
@@ -95,6 +95,7 @@
               name="shopping_cart_id"
               value="{{ cart_id }}"
             />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <button type="submit" class="btn btn-primary btn-lg btn-block">
               update order
             </button>
@@ -127,6 +128,7 @@
       <div class="row mt-4 mx-2">
         <form class="d-grid gap-2" action="shoppingcart/order" method="POST">
           <input type="hidden" name="order_id" value="{{cart_id}}" />
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
           <button type="submit" class="btn btn-success btn-lg btn-block">
             Place order
           </button>

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="py-5">
   <div class="container">
-    <h2>Flowers to choose from</h2>
+    <h2 style="margin-bottom: 1em;" >Flowers to choose from</h2>
     <div class="row">      
         {% for flower in flowers %}
         <div class="col-lg-4 d-flex align-items-stretch">
@@ -18,15 +18,15 @@
             />
           </div>
           <div class="card-body">
-            <a href="{{ '/flower/{}'.format(flower.id) }}" class="btn btn-primary mb-4">Details/buy</a>
+            <div class="d-grid mt-2 mb-4">
+              <a href="{{ '/flower/{}'.format(flower.id) }}" class="btn btn-outline-success btn-md">Details/buy</a>
+            </div>
             <h6 class="card-title">{{flower.name}}</h6>
             <h6 class="card-title">{{flower.latin_name}}</h6>
             <h6 class="card-title">Description:</h6>
             <p class="card-text">             
               {{flower.description}}
             </p>
-           
-            
           </div>
         </div>
         </div>
