@@ -5,17 +5,18 @@ from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from os import getenv
 from babel.dates import format_datetime
+from flask_wtf.csrf import CSRFProtect
 
 db = SQLAlchemy()
-
+csrf = CSRFProtect()
 
 def create_app():
     app = Flask(__name__)
-
     CONFIG_TYPE = os.getenv('CONFIG_TYPE', default='config.ProductionConfig')
     app.config.from_object(CONFIG_TYPE)
     app.secret_key = getenv("SECRET_KEY")
     db.init_app(app)
+    csrf.init_app(app)
     register_blueprints(app)
     app.jinja_env.filters['datetime'] = format_datetime
     app.errorhandler(404)(handle_404_error)

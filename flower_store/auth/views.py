@@ -1,6 +1,7 @@
 from . import auth_blueprint
 from flask import render_template, request, redirect, url_for, current_app, session
 from flower_store import db
+# from flower_store import csrf
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -21,12 +22,13 @@ def login_form():
 def login():
     username = request.form["username"]
     password = request.form["password"]
-
+    csrf_token = request.form["csrf_token"]
+   
     if (not username or not password):
         return render_template('auth/login.html', error_message="You must give username (email) and password")
 
-    sql = "SELECT id, password FROM flower_user WHERE username=:username"
-    result = db.session.execute(sql, {"username": username})
+    get_user_sql = "SELECT id, password FROM flower_user WHERE username=:username"
+    result = db.session.execute(get_user_sql, {"username": username})
     user = result.fetchone()
     if not user:
         return render_template('auth/login.html', error_message="Username or password incorrect")

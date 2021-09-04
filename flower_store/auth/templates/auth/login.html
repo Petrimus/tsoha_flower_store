@@ -54,7 +54,9 @@
               />
               <label class="form-check-label" for="remember">remember me</label>
             </div>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button type="submit" class="btn btn-success w-100">login</button>
+           
           </form>
           <p class="mb-4 text-center">
             Not registered yet?
