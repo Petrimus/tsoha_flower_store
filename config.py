@@ -11,7 +11,7 @@ production_database_url = os.getenv('DATABASE_URL')
 development_database_url = os.getenv('POSTGRES_URL')
 database_url = os.environ['DATABASE_URL']
 if database_url.startswith("postgres://"):
-    database.url = database_url.replace("postgres://", "postgresql://", 1)
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
 
 
 class Config(object):   
