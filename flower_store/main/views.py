@@ -34,11 +34,12 @@ def all_flowers():
 @main_blueprint.route("/flower/<int:id>", methods=["GET", "POST"])
 @login_required
 def single_flower(id):
-    cart_id = session["shoppingcart_id"]
+    cart_id = session["shoppingcart_id"]   
 
     message = ""
     if request.method == 'POST':
         flower_name = request.form["flower_name"]
+        csrf_token = request.form["csrf_token"]
         shoppingcart_id = session["shoppingcart_id"]
         result = db.session.execute(
             "SELECT id FROM shoppingcart_item WHERE flower_id={} AND shoppingcart_id={};".format(id, cart_id))

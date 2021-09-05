@@ -1,0 +1,28 @@
+{% extends "/main/layouts/base_layout.html" %}
+<!-- prettier ignore -->
+{% block content %}
+
+<div  class="container">
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Shopping cart ID</th>
+          <th scope="col">Status</th>
+          <th scope="col">Time</th>
+          <th scope="col">Last name</th>
+         
+      </thead>
+      <tbody>
+        {% for order in orders %}        
+          <tr>           
+            <th scope="row">{{order.cart_id}}</th>
+            <td>{{order.status}}</td>
+            <td>{{order.modified_at | datetime}}</td>                    
+            <td>{{order.last_name}}</td>                    
+          </tr>       
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}

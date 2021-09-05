@@ -49,6 +49,7 @@
                   name="flower_name"
                   value="{{flower.name}}"
                 />
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 {% if flower.selected == 0 %}
                 <button type="submit" id="single_submit" class="btn btn-success">
                   Add to the shopping cart
