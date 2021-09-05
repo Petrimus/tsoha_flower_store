@@ -15,5 +15,13 @@ def get_orders():
 
   return db.session.execute(all_orders_sql).fetchall()
 
+def get_users():
+  users_sql = ("SELECT flower_user.id, flower_user.username, adress.street_and_nro, adress.city, "
+  "COUNT(shoppingcart.id) AS count FROM flower_user "
+  "LEFT JOIN adress ON adress.flower_user_id=flower_user.id "
+  "LEFT JOIN shoppingcart ON flower_user.id=shoppingcart.flower_user_id AND "
+  "shoppingcart.status_id>1 GROUP BY flower_user.id, adress.street_and_nro, adress.city;")
+
+  return db.session.execute(users_sql).fetchall()
 
   

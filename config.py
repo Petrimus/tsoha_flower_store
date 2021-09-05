@@ -9,9 +9,7 @@ user = os.getenv('POSTGRES_USER')
 password = os.getenv('POSTGRES_PASSWORD')
 production_database_url = os.getenv('DATABASE_URL')
 development_database_url = os.getenv('POSTGRES_URL')
-# host = os.environ['POSTGRES_HOST']
-# database = os.environ['POSTGRES_DB']
-# port = os.environ['POSTGRES_PORT']
+database = os.environ['DATABASE_URL']
 
 
 class Config(object):   
@@ -34,6 +32,6 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     FLASK_ENV = 'production'
-    SQLALCHEMY_DATABASE_URI = "postgresql://txjwpeazvjgcoy:60114927eb8a46de56b219042b4924a430100e22633dbfc97c0aee35935c59f0@ec2-3-230-38-145.compute-1.amazonaws.com:5432/d3scfbo5fit0gf"
+    SQLALCHEMY_DATABASE_URI = database
     
     

@@ -12,8 +12,9 @@ def admin_orders():
     abort(403)
 
   orders = services.get_orders()
+  users = services.get_users()
   
-  return render_template('admin/admin_main.html', orders=orders)
+  return render_template('admin/admin_main.html', orders=orders, users=users)
 
 
 

@@ -2,8 +2,9 @@
 <!-- prettier ignore -->
 {% block content %}
 
-<div  class="container">
-  <div>
+<div class="container">
+  <div class="mt-4">
+    <h3>All orders</h3>
     <table class="table">
       <thead>
         <tr>
@@ -11,18 +12,45 @@
           <th scope="col">Status</th>
           <th scope="col">Time</th>
           <th scope="col">Last name</th>
-         
+        </tr>
       </thead>
+
       <tbody>
-        {% for order in orders %}        
-          <tr>           
-            <th scope="row">{{order.cart_id}}</th>
-            <td>{{order.status}}</td>
-            <td>{{order.modified_at | datetime}}</td>                    
-            <td>{{order.last_name}}</td>                    
-          </tr>       
+        {% for order in orders %}
+        <tr>
+          <th scope="row">{{order.cart_id}}</th>
+          <td>{{order.status}}</td>
+          <td>{{order.modified_at | datetime}}</td>
+          <td>{{order.last_name}}</td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
+  </div>
+  <div class="mt-4">
+    <h3>Users</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">User id</th>
+          <th scope="col">Username</th>
+          <th scope="col">Addres</th>
+          <th scope="col">City</th>
+          <th scope="col">Orders made</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <th scope="row">{{user.id}}</th>
+          <td>{{user.username}}</td>
+          <td>{{user.adress}}</td>
+          <td>{{user.city}}</td>
+          <td>{{user.count}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
