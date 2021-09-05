@@ -13,7 +13,6 @@ database_url = os.environ['DATABASE_URL']
 if database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 
-
 class Config(object):   
     FLASK_ENV = 'development'
     DEBUG = False
