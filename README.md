@@ -1,10 +1,9 @@
 # tsoha_flower_store
 Helsinki University Course "tietokantasovellus harjoitus"
 
-## Testing
-Kolmas palautus 22.8. Projekti etenee kukkakaupan käyttäjän näkökulmasta se alkaa olla valmis. Siellä on jotain yksityiskohtia mitä pitää vielä tarkistella. Admin puuttuupi vielä kokonaan. Osoite on [Heroku](https://tsoha-flower-store.herokuapp.com/) ja testitunnarit KT test@tester.io ja SS testing10.
+## Final version
 
-palautus 2, 5.8. Application current progress is about 50 %. Application is running on [Heroku](https://tsoha-flower-store.herokuapp.com/). You can test it with user username test@tester.io and password testing10. So far you should be able to login, create new user, see products, and see test user's shopping cart. Still under construction is possibility to add more products to the shopping cart, update quantities and finally placing orders. Also admin view is still on its way.
+Application is running on [Heroku](https://tsoha-flower-store.herokuapp.com/). You can test it with user username test@tester.io and password testing10. All features described latter are implemented. 
  
 ## Introduction
 The application is an online store where you can buy flowers. New customers have to register to the system. Once that is done customers can sign in, navigate through products (that is flowers), add them in a temporary shopping cart and finally place an order.
@@ -17,7 +16,6 @@ Database for development is a Postgres database running in a Docker container an
 Database has eight tables:
 - flower_user lists all the users including admin user/users.
 - adress
-- creditcard. Customer will add credit card number. This will have some kind of validity check, but card information is not used. The number will be persist as hashed.
 - flower will contain product information.
 - inventory shows how many flowers there are currently in the inventory.
 - shoppingcart is the current order. It can have different statuses.
@@ -26,18 +24,14 @@ Database has eight tables:
  
  
 ## Features
-- users can and must register to the system. done
-- users can log in. done
-- users can log out. done
-- users (and maybe everybody) can see a list of sellable products/flowers. done
-- logged users can add flowers to the shopping cart. done
-- logged users can remove flowers from the shopping cart. done
-- logged users can see their current shopping cart. It will show flowers added and the sum price of the current shopping cart. done
-- logged users can place an order based on the current shopping cart. done
-- logged user can see his/her orders. done
+- users can and must register to the system.
+- users can log in.
+- users can log out. 
+- users (and everybody) can see a list of sellable products/flowers.
+- logged users can add flowers to the shopping cart.
+- logged users can remove flowers from the shopping cart.
+- logged users can see their current shopping cart. It will show flowers added and the sum price of the current shopping cart.
+- logged users can place an order based on the current shopping cart.
+- logged user can see his/her orders.
 - admin can see orders. 
-- admin can filter orders by different variables.
-- admin can delete orders.
-- admin can change the status of the orders (in_progress, finishes, cancelled) 
-
-Goal is to have all the basic features of online store from customer perspective exluding payments.
+- admin can see users.
