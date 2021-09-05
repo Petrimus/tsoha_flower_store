@@ -9,7 +9,9 @@ user = os.getenv('POSTGRES_USER')
 password = os.getenv('POSTGRES_PASSWORD')
 production_database_url = os.getenv('DATABASE_URL')
 development_database_url = os.getenv('POSTGRES_URL')
-database = os.environ['DATABASE_URL']
+database_url = os.environ['DATABASE_URL']
+if database_url.startswith("postgres://"):
+    database.url = database_url.replace("postgres://", "postgresql://", 1)
 
 
 class Config(object):   
@@ -32,6 +34,6 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     FLASK_ENV = 'production'
-    SQLALCHEMY_DATABASE_URI = database
+    SQLALCHEMY_DATABASE_URI = database_url
     
     
