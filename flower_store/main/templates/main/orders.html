@@ -20,8 +20,8 @@
             <th scope="row">{{order.cart_id}}</th>
             <td>{{order.status}}</td>
             <td>{{order.modified_at | datetime}}</td>
-            <td>100</td>
-            <td>34</td>
+            <td>{{order.sum}}</td>
+            <td>{{order.amount}}</td>
             <td><a href="{{ '/order/{}'.format(order.cart_id) }}">See details</a></td>         
           </tr>       
         {% endfor %}

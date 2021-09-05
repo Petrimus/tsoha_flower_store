@@ -138,10 +138,13 @@ def order_list():
     user_id = session["user_id"]
 
     order_sql = ("SELECT shoppingcart.id AS cart_id, shoppingcart.status_id, shoppingcart.modified_at, "
-                 "shoppingcart_status.status_text AS status, shoppingcart_status.id AS status_id "
-                 "FROM shoppingcart, shoppingcart_status WHERE shoppingcart.status_id=shoppingcart_status.id "
-                 "AND shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id > 1 "
-                 "ORDER BY shoppingcart.status_id;")
+    "shoppingcart_status.status_text AS status, shoppingcart_status.id AS status_id,  "
+    "SUM(shoppingcart_item.quantity*flower.price) as TOTAL_PRICE, COUNT(flower.id) AS amount "
+    "FROM shoppingcart, shoppingcart_status, shoppingcart_item, flower "
+    "WHERE shoppingcart.status_id=shoppingcart_status.id AND shoppingcart.flower_user_id=:user_id "
+    "AND shoppingcart.status_id > 1 AND shoppingcart_item.shoppingcart_id=shoppingcart.id "
+    "AND shoppingcart_item.flower_id=flower.id "
+    "GROUP BY shoppingcart.id, shoppingcart.status_id, shoppingcart_status.status_text, shoppingcart_status.id;")
 
     order_list = db.session.execute(order_sql, {"user_id": user_id}).fetchall()
 
@@ -149,9 +152,12 @@ def order_list():
 
 
 @main_blueprint.route("/order/<int:cart_id>")
+@login_required
 def single_order(cart_id):
+    aggregate=get_aggregate_total(cart_id)
+    print(aggregate)
 
-    return render_template("main/order.html", cart=get_cart_info(cart_id), aggregate=get_aggregate_total(cart_id), cart_id=cart_id)
+    return render_template("main/order.html", cart=get_cart_info(cart_id), aggregate=aggregate, cart_id=cart_id)
 
 
 def get_aggregate_total(cart_id):
@@ -160,8 +166,9 @@ def get_aggregate_total(cart_id):
     aggregate_sql = ("SELECT SUM(shoppingcart_item.quantity * flower.price) as TOTAL, shoppingcart.modified_at, "
                      "COUNT(flower.id) as QUANTITY, SUM(shoppingcart_item.quantity) as QUANTITY_total "
                      "FROM shoppingcart, shoppingcart_item, flower "
-                     "WHERE shoppingcart.flower_user_id=:user_id AND shoppingcart.status_id=1 "
-                     "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id GROUP BY shoppingcart.modified_at;")
+                     "WHERE shoppingcart.flower_user_id=:user_id "
+                     "AND shoppingcart_item.shoppingcart_id=shoppingcart.id AND shoppingcart_item.flower_id=flower.id "
+                     "AND shoppingcart.id=:shoppingcart_id GROUP BY shoppingcart.modified_at;")
 
     return db.session.execute(
         aggregate_sql, {"shoppingcart_id": cart_id, "user_id": user_id}).fetchone()
