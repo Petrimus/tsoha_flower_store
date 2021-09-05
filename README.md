@@ -3,7 +3,7 @@ Helsinki University Course "tietokantasovellus harjoitus"
 
 ## Final version
 
-Application is running on [Heroku](https://tsoha-flower-store.herokuapp.com/). You can test it with user username test@tester.io and password testing10. All features described later are implemented. 
+Application is running on [Heroku](https://tsoha-flower-store.herokuapp.com/). You can test it with user username test@tester.io and password testing10. All features described later are implemented. Test user is only one with admin priviledges. Little unintuitively test user is also customer.
  
 ## Introduction
 The application is an online store where you can buy flowers. New customers have to register to the system. Once that is done customers can sign in, navigate through products (that is flowers), add them in a temporary shopping cart and finally place an order.
