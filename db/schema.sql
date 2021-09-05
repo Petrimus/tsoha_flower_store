@@ -17,14 +17,6 @@ CREATE TABLE adress (
   flower_user_id INTEGER REFERENCES flower_user
 );
 
-CREATE TABLE creditcard (
-  id SERIAL PRIMARY KEY,
-  experience_date Date NOT NULL,
-  card_number Integer NOT NULL,
-  created_at TIMESTAMP,
-  flower_user_id INTEGER REFERENCES flower_user
-  );
-
 CREATE TABLE flower (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
@@ -65,5 +57,3 @@ CREATE TABLE shoppingcart_item (
   flower_id INTEGER REFERENCES flower,
   shoppingcart_id INTEGER REFERENCES shoppingcart
 );
-
-CREATE TABLE messages (id SERIAL PRIMARY KEY, content TEXT);
