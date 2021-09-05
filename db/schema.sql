@@ -4,7 +4,7 @@ CREATE TABLE flower_user (
   last_name VARCHAR (30) NOT NULL,  
   username VARCHAR (100) NOT NULL unique,
   password VARCHAR NOT NULL,
-  is_admin BOOlean DEFAULT FALSE,
+  is_admin BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
   );
 
